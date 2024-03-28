@@ -5,7 +5,7 @@ import fontforge
 DataDir = join(dirname(dirname(__file__)), "data")
 MainFont = join(DataDir, "FiraCodeNerdFont-Retina.ttf")
 MergedFont = join(DataDir, "LXGWWenKaiMono-Regular.ttf")
-FontName = "FiraCodeNerdFont-Ret-WithLXGWCN-Xerxes"
+FontName = "FiraNerd-Ret-LXGW-Xerxes"
 Output = join(DataDir, f"{FontName}.ttf")
 print("Main:", MainFont)
 print("Merged:", MergedFont)
@@ -28,31 +28,31 @@ if __name__ == "__main__":
     output_font = fontforge.font()
 
     merged_font.upos = -125
-    merged_font.em = 1950
+    merged_font.em = 2400
     merged_font.ascent = 1560
     merged_font.descent = 390
     main_font.selection.none()
     merged_font.selection.none()
 
-    for start, end in CJKRanges:
-        main_font.selection.select(("ranges", "more"), start, end)
-        merged_font.selection.select(("ranges", "more"), start, end)
-        # output_font.selection.select(("ranges", "more"), start, end)
-    merged_font.copy()
-    main_font.paste()
-    main_font.fontname = FontName
-    main_font.validate()
-    main_font.save(Output)
+    # for start, end in CJKRanges:
+    #     main_font.selection.select(("ranges", "more"), start, end)
+    #     merged_font.selection.select(("ranges", "more"), start, end)
     # merged_font.copy()
-    # output_font.paste()
+    # main_font.paste()
+    main_font.fontname = FontName
+    main_font.fullname = FontName
+    main_font.familyname = "XerxesFont"
+    main_font.weight = "Regular"
+    main_font.copyright = ""
+    main_font.appendSFNTName("Chinese (PRC)", "Family", "XerxesFont")
+    main_font.appendSFNTName("Chinese (PRC)", "SubFamily", "Regular")
+    main_font.appendSFNTName("Chinese (PRC)", "Sample Text", "Xerxes's 全能 Font")
+    main_font.appendSFNTName("English (US)", "Preferred Styles", "Regular")
+    main_font.appendSFNTName("English (US)", "Preferred Family", "XerxesFont")
+    main_font.appendSFNTName("English (US)", "Version", "XerxesFont 0.0.1")
+    main_font.appendSFNTName("English (US)", "UniqueID", "XerxesFont 0.0.1")
 
-    # main_font.selection.invert()
-    # output_font.selection.invert()
-
-    # main_font.copy()
-    # output_font.paste()
-
-    # output_font.fontname = FontName
-    # output_font.save(Output)
-
-    # main_font.close()
+    print(main_font.sfnt_names)
+    print(main_font.os2_family_class)
+    main_font.validate()
+    main_font.generate(Output)
